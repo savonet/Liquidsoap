@@ -79,6 +79,7 @@ Changed:
 - Added `settings.protocol.youtube_dl.timeout` to specify timeout when using
   `youtube-dl` protocol (#2827). Use `yt-dlp` as default binary for the
   protocol.
+- Allow implicit casting of an integer as a float (#2887).
 
 Fixed:
 
