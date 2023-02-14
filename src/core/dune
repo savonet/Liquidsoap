@@ -216,12 +216,12 @@
   sha1
   shebang
   shine_format
-  sleeper
   source
   speex_format
   srt_decoder
   srt_parser
   start_stop
+  startup
   stereo
   still_frame
   stringView
@@ -242,6 +242,7 @@
   utils
   value
   vFrame
+  video_board
   video_converter
   video_effects
   video_fade

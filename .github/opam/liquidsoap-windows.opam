@@ -25,6 +25,7 @@ depends: [
   "pcre-windows" {>= "7.5.0"}
   "sedlex"
   "sedlex-windows"
+  "menhir"
   "menhir-windows"
   "menhirLib-windows"
   "metadata-windows"
@@ -59,7 +60,7 @@ depopts: [
   "magic-windows"
   "memtrace-windows"
   "mem_usage-windows"
-  "ocurl-windows"
+  "curl-windows"
   "ogg-windows"
   "opus-windows"
   "osx-secure-transport-windows"
@@ -103,7 +104,7 @@ conflicts: [
   "mad-windows" {< "0.5.0"}
   "magic-windows" {< "0.6"}
   "mem_usage-windows" {< "0.0.3"}
-  "ocurl-windows" {< "0.9.2"}
+  "curl-windows" {< "0.9.2"}
   "ogg-windows" {< "0.7.0"}
   "opus-windows" {< "0.2.0"}
   "portaudio-windows" {< "0.2.0"}

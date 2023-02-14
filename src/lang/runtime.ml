@@ -30,14 +30,15 @@ let type_and_run ~throw ~lib ast =
     (!Hooks.collect_after (fun () ->
          if Lazy.force Term.debug then Printf.eprintf "Type checking...\n%!";
          (* Type checking *)
-         Typechecking.check ~throw ~ignored:true ast;
+         Startup.time "Typechecking" (fun () ->
+             Typechecking.check ~throw ~ignored:true ast);
 
          if Lazy.force Term.debug then
            Printf.eprintf "Checking for unused variables...\n%!";
          (* Check for unused variables, relies on types *)
          Term.check_unused ~throw ~lib ast;
          if Lazy.force Term.debug then Printf.eprintf "Evaluating...\n%!";
-         Evaluation.eval_toplevel ast))
+         Startup.time "Evaluation" (fun () -> Evaluation.eval_toplevel ast)))
 
 (** {1 Error reporting} *)
 
@@ -254,8 +255,10 @@ let load_libs ?(error_on_no_stdlib = true) ?parse_only ?(deprecated = true)
       failwith "Could not find default stdlib.liq library!")
   else from_file ?parse_only ~ns:(Some file) ~lib:true file;
   let file = Filename.concat dir "deprecations.liq" in
-  if deprecated && Sys.file_exists file then
-    from_file ?parse_only ~ns:(Some file) ~lib:true file
+  if deprecated then
+    if Sys.file_exists file then
+      from_file ?parse_only ~ns:(Some file) ~lib:true file
+    else Printf.eprintf "Warning: could not find deprecated library %s\n%!" file
 
 let from_file = from_file ~ns:None
 
