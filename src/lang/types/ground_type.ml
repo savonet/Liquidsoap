@@ -37,6 +37,7 @@ module Make (S : Spec) = struct
   type Type_base.custom += Type
 
   let () = types := Type :: !types
+  let typ = Type
   let get = function Type -> Type | _ -> assert false
 
   let is_descr = function
@@ -74,17 +75,32 @@ module Make (S : Spec) = struct
         Type_base.make (Type_base.Custom handler))
 end
 
-module Int = Make (struct
-  let name = "int"
-end)
-
-let int = Int.descr
-
 module Float = Make (struct
   let name = "float"
 end)
 
 let float = Float.descr
+
+module Int = struct
+  module Int = Make (struct
+    let name = "int"
+  end)
+
+  include Int
+
+  (* Add int <: float subtyping. *)
+  let handler =
+    let subtype _ _ c = assert (c = Int.typ || c = Float.typ) in
+    { handler with subtype }
+
+  let descr = Type_base.Custom handler
+
+  let () =
+    Type_base.register_type "int" (fun () ->
+        Type_base.make (Type_base.Custom handler))
+end
+
+let int = Int.descr
 
 module String = Make (struct
   let name = "string"

@@ -85,6 +85,7 @@ Changed:
   `youtube-dl` protocol (#2827). Use `yt-dlp` as default binary for the
   protocol.
 - The `sleeper` operator is now scripted (#2899).
+- Allow implicit casting of an integer as a float (#2887).
 
 Fixed:
 

@@ -294,11 +294,17 @@ let to_string_getter t =
     | _ -> assert false
 
 let to_float t =
-  match (demeth t).value with Ground (Float s) -> s | _ -> assert false
+  match (demeth t).value with
+    | Ground (Float s) -> s
+    | Ground (Int n) -> float_of_int n
+    | _ -> assert false
 
 let to_float_getter t =
   match (demeth t).value with
     | Ground (Float s) -> fun () -> s
+    | Ground (Int n) ->
+        let n = float_of_int n in
+        fun () -> n
     | Fun _ | FFI _ -> (
         fun () ->
           match (apply t []).value with
